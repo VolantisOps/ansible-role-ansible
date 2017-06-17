@@ -1,0 +1,39 @@
+---
+- name: Install ansible
+  pacman: name=ansible state=present
+
+- name: Install ansible config file
+  template:
+    src: "{{ ansible_template }}"
+    dest: "{{ ansible_config_file_dir }}/ansible.cfg"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: checkout ansible repository
+  git:
+    repo: "{{ ansible_repo }}"
+    version: "{{ ansible_repo_branch }}"
+    accept_hostkey: true
+    dest: "{{ ansible_main_dir }}"
+  become: true
+  become_user: "{{ ansible_playbook_owner }}"
+
+- name: ansible update cron
+  cron:
+    name: ansible update
+    minute: "{{ ansible_update_minute }}"
+    hour: "{{ ansible_update_hour }}"
+    user: "{{ ansible_playbook_owner }}"
+    job: "cd {{ ansible_main_dir }} && git pull -q origin {{ ansible_repo_branch }}"
+    cron_file: ansible_ansible-update
+
+- name: ansible playbooks cron
+  cron:
+    name: "run ansible {{ item.playbook }} playbook"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day }}"
+    user: "{{ ansible_playbook_run_as }}"
+    job: "cd {{ ansible_main_dir }} && {{ ansible_command }} {{ item.playbook }}"
+    cron_file: "ansible_ansible-playbook-{{ item.playbook }}"

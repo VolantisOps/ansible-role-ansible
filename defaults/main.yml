@@ -1,0 +1,19 @@
+---
+ansible_repo: ''
+ansible_repo_branch: master
+ansible_main_dir: /opt/rpi-ansible
+ansible_enable_pipelining: False
+ansible_playbook_owner: root
+ansible_config_file_dir: /etc/ansible
+ansible_playbook_run_as: root
+ansible_remote_user: root
+ansible_command: "ansible-playbook"
+ansible_update_hour: 2
+ansible_update_minute: 30
+ansible_python_interpreter: /usr/bin/python
+ansible_template: ansible.cfg.j2
+ansible_cron_jobs:
+  - playbook: site
+    minute: 30
+    hour: 4
+    day: *
