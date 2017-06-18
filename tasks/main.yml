@@ -25,7 +25,7 @@
     minute: "{{ ansible_update_minute }}"
     hour: "{{ ansible_update_hour }}"
     user: "{{ ansible_playbook_owner }}"
-    job: "cd {{ ansible_main_dir }} && git pull -q origin {{ ansible_repo_branch }}"
+    job: "cd {{ ansible_main_dir }} && git pull -q origin {{ ansible_repo_branch }} && {{ ansible_requirements_update_command }}"
     cron_file: ansible_ansible-update
 
 - name: ansible playbooks cron
