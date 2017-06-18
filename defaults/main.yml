@@ -8,7 +8,7 @@ ansible_config_file_dir: /etc/ansible
 ansible_playbook_run_as: root
 ansible_remote_user: root
 ansible_command: "/usr/bin/ansible-playbook"
-ansible_requirements_command: "/usr/bin/ansible-galaxy install -rf requirements.yml"
+ansible_requirements_update_command: "/usr/bin/ansible-galaxy install -rf requirements.yml"
 ansible_update_hour: 2
 ansible_update_minute: 30
 ansible_python_interpreter: /usr/bin/python
